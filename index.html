@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title></title>
+</head>
+
+<body>
+  
+</body>
+
+</html>
+alt<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>フォトコン</title>
+</head>
+<body>
+
+<h2>フォトコンテスト</h2>
+
+<input type="file" id="file">
+<button onclick="upload()">投稿</button>
+
+<hr>
+
+<div id="photos"></div>
+
+<script>
+let photos = [];
+
+function upload() {
+  const file = document.getElementById("file").files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    photos.push({ url: e.target.result, votes: 0 });
+    show();
+  };
+  reader.readAsDataURL(file);
+}
+
+function vote(i) {
+  photos[i].votes++;
+  show();
+}
+
+function show() {
+  let html = "";
+  photos.forEach((p, i) => {
+    html += `
+      <div>
+        <img src="${p.url}" width="200"><br>
+        ${p.votes}票<br>
+        <button onclick="vote(${i})">投票</button>
+      </div><hr>
+    `;
+  });
+  document.getElementById("photos").innerHTML = html;
+}
+</script>
+
+</body>
+</html>
